@@ -9,19 +9,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
 
     <script language="JavaScript">
-        function connect() {
-            var socket = new WebSocket('ws://localhost:8080/greeting');
-            ws = Stomp.over(socket);
+        function connectStomp() {
+            var socket = new WebSocket('ws://localhost:8080/stompName');
+            wsStomp = Stomp.over(socket);
 
-            ws.connect({}, function(frame) {
-                ws.subscribe("/topic/errors", function(message) {
+            wsStomp.connect({}, function(frame) {
+                wsStomp.subscribe("/topic/errors", function(message) {
                     alert("Error " + message.body);
                 });
 
-                ws.subscribe("/topic/reply", function(message) {
+                wsStomp.subscribe("/topic/reply", function(message) {
                     showGreeting(message.body);
                 });
-                ws.subscribe("/user/topic/reply", function(message) {
+                wsStomp.subscribe("/user/topic/reply", function(message) {
                     showGreeting(message.body);
                 });
             }, function(error) {
@@ -29,19 +29,19 @@
             });
         }
 
-        function disconnect() {
-            if (ws != null) {
-                ws.close();
+        function disconnectStomp() {
+            if (wsStomp != null) {
+                wsStomp.close();
             }
             setConnected(false);
             console.log("Disconnected");
         }
 
-        function sendName() {
+        function sendNameStomp() {
             var data = JSON.stringify({
                 'name' : $("#name").val()
             })
-            ws.send("/app/message", {}, data);
+            wsStomp.send("/app/messageStomp", {}, data);
         }
 
         function showGreeting(message) {
@@ -52,14 +52,14 @@
             $("form").on('submit', function(e) {
                 e.preventDefault();
             });
-            $("#connect").click(function() {
-                connect();
+            $("#connectStomp").click(function() {
+                connectStomp();
             });
-            $("#disconnect").click(function() {
-                disconnect();
+            $("#disconnectStomp").click(function() {
+                disconnectStomp();
             });
-            $("#send").click(function() {
-                sendName();
+            $("#sendStomp").click(function() {
+                sendNameStomp();
             });
         });
     </script>
@@ -73,9 +73,9 @@
         <div class="col-md-6">
             <form class="form-inline">
                 <div class="form-group">
-                    <label for="connect">WebSocket connection:</label>
-                    <button id="connect" class="btn btn-default" type="submit">Connect</button>
-                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
+                    <label for="connectStomp">WebSocket Stomp connection:</label>
+                    <button id="connectStomp" class="btn btn-default" type="submit">Connect</button>
+                    <button id="disconnectStomp" class="btn btn-default" type="submit" disabled="disabled">Disconnect
                     </button>
                 </div>
             </form>
@@ -86,7 +86,7 @@
                     <label for="name">What is your name?</label>
                     <input type="text" id="name" class="form-control" placeholder="Your name here...">
                 </div>
-                <button id="send" class="btn btn-default" type="submit">Send</button>
+                <button id="sendStomp" class="btn btn-default" type="submit">Send Stomp</button>
             </form>
         </div>
     </div>

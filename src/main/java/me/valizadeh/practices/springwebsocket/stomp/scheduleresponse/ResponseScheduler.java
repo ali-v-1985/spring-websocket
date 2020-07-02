@@ -1,4 +1,4 @@
-package me.valizadeh.practices.springwebsocket.scheduleresponse;
+package me.valizadeh.practices.springwebsocket.stomp.scheduleresponse;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;

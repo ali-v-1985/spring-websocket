@@ -19,7 +19,7 @@ public class WebSocketController {
 	 * @param principal
 	 * @return
 	 */
-	@MessageMapping("/message")
+	@MessageMapping("/messageStomp")
 	@SendToUser("/topic/reply")
 	public String processMessageFromClient(@Payload String message, Principal principal) {
 		String name = new Gson().fromJson(message, Map.class).get("name").toString();
